@@ -1,0 +1,218 @@
+<!Doctype html>
+<html>
+ <head>
+   <title>瀑布流布局</title>
+   <meta charset="utf-8" />
+   <style>
+       
+       * {
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			#main {
+				width: 1185px;
+				margin: 0px auto;
+				position: relative;
+			}
+			
+			.box {
+				padding-left: 15px;
+				padding-top: 15px;
+				float: left;
+			}
+			
+			.pic {
+				padding: 10px;
+				border: 1px solid #CCCCCC;
+				border-radius: 5px;
+				box-shadow: 0 0 5px #CCCCCC;
+			}
+			
+			.pic img {
+				width: 200px;
+				height: auto;
+			}
+   </style>
+   
+ </head>
+ <body>
+     <div id="main">
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/0.jpg" title="0.jpg"/>
+ 			</div>
+ 		</div>
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/1.jpg" title="1.jpg"/>
+ 			</div>
+ 		</div>
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/2.jpg" title="2.jpg"/>
+ 			</div>
+ 		</div>
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/3.jpg" title="3.jpg"/>
+ 			</div>
+ 		</div>
+  		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/4.jpg" title="4.jpg"/>
+ 			</div>
+ 		</div>
+  		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/5.jpg" title="5.jpg"/>
+ 			</div>
+ 		</div>
+  		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/6.jpg" title="6.jpg"/>
+ 			</div>
+ 		</div>
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/7.jpg" title="7.jpg"/>
+ 			</div>
+ 		</div>
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/8.jpg" title="8.jpg"/>
+ 			</div>
+ 		</div>
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/9.jpg" title="9.jpg"/>
+ 			</div>
+ 		</div>
+  		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/10.jpg" title="10.jpg"/>
+ 			</div>
+ 		</div>
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/11.jpg" title="11.jpg"/>
+ 			</div>
+ 		</div>
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/12.jpg" title="12.jpg"/>
+ 			</div>
+ 		</div>
+ 		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/13.jpg" title="13.jpg"/>
+ 			</div>
+ 		</div>
+  		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/14.jpg" title="14.jpg"/>
+ 			</div>
+ 		</div>
+  		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/15.jpg" title="15.jpg"/>
+ 			</div>
+ 		</div>
+  		<div class="box">
+ 			<div class="pic">
+ 				<img src="js_waterfall/images/16.jpg" title="16.jpg"/>
+ 			</div>
+ 		</div>
+	</div>
+ </body>
+</html>
+<script type="text/javascript">
+ window.onload=function(){
+     waterfall('main','box');
+     var dataInt={'data':[{'src':'17.jpg'},{'src':'18.jpg'},{'src':'19.jpg'},{'src':'15.jpg'}]}
+     window.onscroll=function()
+     {
+     	if(checkScrollSlide)
+     	{
+     		var oParent=document.getElementById('main');
+     		for(var i=0;i<dataInt.data.length;i++)
+     		{
+     			var oBox=document.createElement('div');
+     			oBox.className='box';
+     			oParent.appendChild(oBox);
+				var oPic=document.createElement('div');
+				oPic.className='pic';
+				oBox.appendChild(oPic);
+				var oImg=document.createElement('img');
+				oImg.src='js_waterfall/images/'+dataInt.data[i].src;
+				oPic.appendChild(oImg);
+     		}
+     		waterfall('main','box');
+     	}
+     }
+}
+function waterfall(parent,box){
+  var oParent=document.getElementById(parent);
+  var oBoxs=getByClass(oParent,box);
+  var oBoxW=oBoxs[0].offsetWidth;
+  var cols=Math.floor(document.documentElement.clientWidth/oBoxW);
+  console.log(oBoxW);
+  var hArr=[];
+for(var i=0;i<oBoxs.length;i++){
+    if(i<cols){
+       // 将图片的高度值添加到数组中
+        hArr.push(oBoxs[i].offsetHeight);
+    }else{
+      // 求最小值和最小值的索引
+      var minH=Math.min.apply(null,hArr);
+      console.log(minH);
+      var index=getMinhIndex(hArr,minH);
+
+// 计算及定义图片出现的位置
+      oBoxs[i].style.position='absolute';
+      oBoxs[i].style.top=minH+'px';
+      oBoxs[i].style.left=oBoxs[index].offsetLeft+'px';
+      
+      
+      // 改变数组值
+     hArr[index]+=oBoxs[i].offsetHeight;
+    }
+  }
+}
+function getByClass(parent,clsName){
+  var boxArr=new Array();
+     var  oElements=parent.getElementsByTagName('*');
+  for(var i=0;i<oElements.length;i++){
+    if(oElements[i].className==clsName){
+      boxArr.push(oElements[i]);
+    }
+  }
+  return boxArr;
+}
+
+
+// 求值在数组中的索引,arr接收的是数组，val接收的是判断的值
+function getMinhIndex(arr,val){
+	for(var i in arr)
+	{
+		if(arr[i]==val)
+		{
+		return i;
+		}
+	}
+}
+
+function checkScrollSlide()
+{
+	var oParent=document.getElementById('main');
+	var oBoxs=getByClass(oParent,'box');
+	var lastBoxH=oBoxs[oBoxs.length-1].offsetTop+Math.floor(oBoxs[oBoxs.length-1].offsetHeight/2);
+	//标准模式(后者)和混杂模式（前者）获取滚动条滚走距离
+	var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
+	//console.log(scrollTop);
+	//可视区
+	var height=document.body.clientHeight||document.documentElement.clientHeight;
+	//console.log(height);
+	return (lastBoxH<scrollTop+height)?true:false;
+}
+</script>
