@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+		#des{
+			-webkit-transition:background-color 5s ease-in-out,transform 5s;
+			-webkit-perspective:700;
+			-webkit-perspective-origin:50% 50%;
+			-webkit-transform-style:-webkit-perserve-3d;
+		}
+		#b1{
+			width:200px;
+			height:200px;
+			background-color: #585;
+			margin:100px auto;
+			text-align: center;
+			line-height: 200px;
+		}
+		h1{
+			font-weight: bold;
+		}
+		input{
+			width:800px;
+		}
+		
+        </style>
+        <script>
+        function translate1()
+        {
+        	var x=document.getElementById('translatex').value;
+        	var y=document.getElementById('translatey').value;
+        	var z=document.getElementById('translatez').value;
+
+        	document.getElementById('b1').style.webkitTransform="rotateX("+x+"deg) rotateY("+y+"deg) rotateZ("+z+"deg)";
+
+        	document.getElementById('translatex-span').innerText=x;
+        	document.getElementById('translatey-span').innerText=y;
+        	document.getElementById('translatez-span').innerText=z;
+        }
+        </script>
+    </head>
+    <body>
+    <div id="des">
+    	<div id="b1"><h1>here</h1></div>
+    </div>
+
+    <div id="trans">
+    	<p>translate x <span id="translatex-span">0</span>px<input type="range" min="-360" max="360" id="translatex" value="0" class="change-control" onchange="translate1()"></p>
+    	<br>
+    	<p>translate y <span id="translatey-span">0</span>px<input type="range" min="-360" max="360" id="translatey" value="0" class="change-control" onchange="translate1()"></p>
+    	<br>
+    	<p>translate z <span id="translatez-span">0</span>px<input type="range" min="-360" max="360" id="translatez" value="0" class="change-control" onchange="translate1()"></p>
+    	<br>
+
+    </div>
+    </body>
+</html>
